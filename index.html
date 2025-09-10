@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Procurement Method Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --primary:#F8B300; --primary-hover:#D69A00;
+      --secondary:#111111; --secondary-hover:#333333;
+      --accent:#5A5A5A; --accent-hover:#888888;
+      --muted:#f3f4f6; --muted-foreground:#6B7280;
+      --border:#E5E7EB; --foreground:#374151; --background:#FFFFFF;
+      --card:#FFFFFF; --card-foreground:#374151;
+      --radius:.5rem; --ring:#E5E7EB; --blue:#004B87;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;color:var(--foreground);line-height:1.5;background:var(--background)}
+    .container{max-width:1024px;margin:0 auto;padding:1.5rem 1rem}
+    h1{font-size:1.5rem;font-weight:700;margin-bottom:1.5rem}
+    h2{font-size:1.25rem;font-weight:600;margin-bottom:1rem}
+    h3{font-size:1.125rem;font-weight:500;margin-bottom:.75rem}
+    p{margin-bottom:1rem}
+
+    .card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);
+      box-shadow:0 1px 3px rgba(0,0,0,.1); overflow:hidden; margin-bottom:1.5rem}
+    .card-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)}
+    .card-title{font-size:1.25rem;font-weight:600;color:var(--card-foreground)}
+    .card-description{font-size:.875rem;color:var(--muted-foreground);margin-top:.25rem}
+    .card-content{padding:1.5rem}
+    .card-footer{padding:1.25rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.75rem}
+
+    .button{display:inline-flex;align-items:center;justify-content:center;border-radius:var(--radius);
+      font-size:.875rem;font-weight:600;padding:.55rem 1rem;transition:.2s;cursor:pointer;border:1px solid transparent}
+    .button-primary{background:var(--primary);color:#fff}
+    .button-primary:hover{background:var(--primary-hover)}
+    .button-secondary{background:#f8961d;color:#fff}
+    .button-secondary:hover{background:#e98611}
+    .button-outline{background:transparent;border-color:var(--border);color:var(--foreground)}
+    .button-outline:hover{border-color:var(--accent);background:var(--muted)}
+
+    .form-group{margin-bottom:1.5rem}
+    .form-label{display:block;font-size:.875rem;font-weight:500;margin-bottom:.5rem}
+    .form-helper{font-size:.75rem;color:#184a7c;margin-top:.25rem}
+    .form-control{width:100%;padding:.5rem;border-radius:var(--radius);border:1px solid var(--border);
+      background:var(--background);font-size:.875rem;color:var(--foreground)}
+    .form-control:focus{outline:none;box-shadow:0 0 0 2px rgba(0,75,135,.2);border-color:var(--primary)}
+
+    .radio-group{display:flex;flex-direction:column;gap:.5rem}
+    .radio-item{display:flex;align-items:center;position:relative;padding-left:1.75rem;cursor:pointer}
+    .radio-item input{position:absolute;opacity:0;height:0;width:0}
+    .radio-checkmark{position:absolute;top:.25rem;left:0;height:1rem;width:1rem;background:#fff;border-radius:50%;border:1px solid var(--border)}
+    .radio-item:hover input ~ .radio-checkmark{background:var(--muted)}
+    .radio-item input:checked ~ .radio-checkmark{background:var(--primary);border-color:var(--primary)}
+    .radio-checkmark:after{content:"";position:absolute;display:none}
+    .radio-item input:checked ~ .radio-checkmark:after{display:block}
+    .radio-item .radio-checkmark:after{top:.25rem;left:.25rem;width:.5rem;height:.5rem;border-radius:50%;background:#fff}
+
+    .result-section{background:#f8f9fa;border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem}
+    .badge{display:inline-flex;align-items:center;border-radius:9999px;font-size:.75rem;font-weight:500;
+      line-height:1;padding:.25rem .75rem;background:#EFF6FF;color:#1E40AF;border:1px solid #DBEAFE}
+
+    .separator{height:1px;background:var(--border);margin:1.5rem 0}
+
+    .alert{display:flex;padding:1rem;border-radius:var(--radius);border:1px solid var(--border);
+      margin-bottom:1rem;align-items:flex-start;gap:.75rem;background:#F9FAFB}
+    .alert-title{font-weight:600;font-size:.9rem;margin-bottom:.25rem}
+    .alert-description{font-size:.8rem;color:#184a7c}
+
+    .step-indicator{display:flex;margin-bottom:2rem;gap:.5rem}
+    .step{flex:1;text-align:center;padding:.5rem;position:relative}
+    .step-number{display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:50%;
+      background:var(--muted);border:2px solid var(--border);color:var(--muted-foreground);font-weight:600;margin-bottom:.5rem}
+    .step.active .step-number{background:var(--primary);border-color:var(--primary);color:#fff}
+    .step-title{font-size:.8rem;font-weight:600;color:#111}
+
+    .platform-buttons{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+    .platform-button{display:flex;flex-direction:column;align-items:center;justify-content:center;width:160px;height:150px;
+      padding:12px;border-radius:8px;text-decoration:none;text-align:center;transition:.2s;color:#fff!important;font-weight:bold;
+      box-shadow:0 2px 8px rgba(0,0,0,.1)}
+    .platform-button:hover{transform:translateY(-3px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+    .platform-button-name{font-size:1.1rem;margin-bottom:6px}
+    .platform-button-desc{font-size:.75rem;opacity:.9}
+    .vascupp-button{background:#091f2f}.vhepc-button{background:#001430}.eva-button{background:#008080}
+    .vita-button{background:#8cd4a8}.pavilion-button{background:#3831eb}
+
+    .collapsible{cursor:pointer;position:relative;padding-right:30px}
+    .collapsible::after{content:'+';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:16px;font-weight:700;transition:.2s}
+    .collapsible.active::after{content:'−'}
+    .collapsible-content{max-height:0;overflow:hidden;transition:max-height .3s ease-out}
+    .collapsible-content.show{max-height:500px;transition:max-height .5s ease-in}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Step indicator -->
+    <div class="step-indicator">
+      <div class="step active" id="stepIndicator1"><div class="step-number">1</div><div class="step-title">Start</div></div>
+      <div class="step" id="stepIndicator2"><div class="step-number">2</div><div class="step-title">Existing Contract</div></div>
+      <div class="step" id="stepIndicator3"><div class="step-number">3</div><div class="step-title">Criteria</div></div>
+      <div class="step" id="stepIndicator4"><div class="step-number">4</div><div class="step-title">Result</div></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div id="step1" class="card">
+      <div class="card-header">
+        <div class="card-title">Determine the Right Procurement Method</div>
+        <div class="card-description">This guide will help you identify the appropriate procurement method based on your specific needs.</div>
+      </div>
+      <div class="card-content">
+        <p>Finding the right procurement method is crucial for ensuring compliance with regulations and obtaining the best value. This tool will guide you through the selection process based on your purchase details.</p>
+
+        <div class="alert">
+          <div>
+            <div class="alert-title">Important Note</div>
+            <div class="alert-description">This tool provides general guidance based on common procurement practices. Always consult with VCU Procurement Services for official guidance.</div>
+          </div>
+        </div>
+
+        <p>Let's get started by understanding the basics of your purchase:</p>
+
+        <div class="form-group">
+          <label class="form-label" for="purchaseType">What type of procurement are you planning?</label>
+          <select id="purchaseType" class="form-control">
+            <option value="" selected disabled>Select an option</option>
+            <option value="standardGoods">Standard Goods</option>
+            <option value="standardServices">Standard Services</option>
+            <option value="standardGoodsServices">Standard Goods and Services</option>
+            <option value="construction">Related to construction, renovations, or other facility related purchase</option>
+          </select>
+          <div class="form-helper">Select the category that best describes what you're purchasing.</div>
+        </div>
+
+        <div id="step1Error" class="alert" style="display:none">
+          <div>
+            <div class="alert-title">Missing Input</div>
+            <div class="alert-description">Please select a procurement type.</div>
+          </div>
+        </div>
+
+        <div id="fmdMessage" class="alert" style="display:none;margin-top:1rem">
+          <div>
+            <div class="alert-title">Construction and Facilities Related Purchases</div>
+            <div class="alert-description">
+              For construction, renovations, or other facility related purchases, please contact Facilities Management (FMD).<br/>
+              Visit: <a href="https://fmd.vcu.edu/services/" target="_blank">https://fmd.vcu.edu/services/</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button id="startCancelButton" class="button button-outline">Cancel</button>
+        <button id="step1NextButton" class="button button-primary">Next</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" class="card" style="display:none">
+      <div class="card-header">
+        <div class="card-title">Check for Existing Contracts</div>
+        <div class="card-description">Determine if there's an existing contract or agreement that you can use.</div>
+      </div>
+      <div class="card-content">
+        <p>Before selecting a procurement method, check if there's an existing contract or agreement that covers your needs. Using an existing contract can save time and resources.</p>
+
+        <div class="form-group">
+          <label class="form-label">Check these resources for existing contracts:</label>
+          <div class="platform-buttons">
+            <a href="https://vascupp.org" target="_blank" class="platform-button vascupp-button">
+              <div class="platform-button-name">VASCUPP</div><div class="platform-button-desc">Association of State College & University Purchasing</div>
+            </a>
+            <a href="https://vhepc.cobblestone.software/public/" target="_blank" class="platform-button vhepc-button">
+              <div class="platform-button-name">VHEPC</div><div class="platform-button-desc">Higher Ed Procurement Consortium</div>
+            </a>
+            <a href="https://eva.virginia.gov" target="_blank" class="platform-button eva-button">
+              <div class="platform-button-name">eVA</div><div class="platform-button-desc">Virginia eProcurement</div>
+            </a>
+            <a href="https://vita.cobblestonesystems.com/public/" target="_blank" class="platform-button vita-button">
+              <div class="platform-button-name">VITA</div><div class="platform-button-desc">IT Contracts</div>
+            </a>
+            <a href="https://www.withpavilion.com/welcome" target="_blank" class="platform-button pavilion-button">
+              <div class="platform-button-name">Pavilion</div><div class="platform-button-desc">Cooperative Platform</div>
+            </a>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Is there an existing contract that meets your requirements?</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="existingContract" value="yes"/><span class="radio-checkmark"></span>Yes</label>
+            <label class="radio-item"><input type="radio" name="existingContract" value="no"/><span class="radio-checkmark"></span>No</label>
+            <label class="radio-item"><input type="radio" name="existingContract" value="notSure"/><span class="radio-checkmark"></span>I'm not sure</label>
+          </div>
+        </div>
+
+        <div id="existingContractInfo" style="display:none">
+          <div class="alert"><div><div class="alert-title">Use the Existing Contract</div>
+            <div class="alert-description">If an existing contract meets your needs, use it—it’s usually fastest.</div></div></div>
+        </div>
+
+        <div id="notSureInfo" style="display:none">
+          <div class="alert"><div><div class="alert-title">Cooperative Options</div>
+            <div class="alert-description">Contact Purchasing to check cooperative contracts that may fit.</div></div></div>
+        </div>
+
+        <div id="step2Error" class="alert" style="display:none"><div><div class="alert-title">Missing Input</div>
+          <div class="alert-description">Please choose Yes / No / Not sure.</div></div></div>
+      </div>
+      <div class="card-footer">
+        <button id="step2BackButton" class="button button-outline">Back</button>
+        <button id="step2NextButton" class="button button-primary">Next</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step3" class="card" style="display:none">
+      <div class="card-header">
+        <div class="card-title">Procurement Criteria</div>
+        <div class="card-description">Answer a few questions to determine the appropriate procurement method.</div>
+      </div>
+      <div class="card-content">
+        <div class="form-group">
+          <label class="form-label">What is the estimated value of the procurement?</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="value" value="under10k"/><span class="radio-checkmark"></span>Under $10,000 (Delegated Authority)</label>
+            <label class="radio-item"><input type="radio" name="value" value="10kTo200k"/><span class="radio-checkmark"></span>$10,000 to $200,000 (Small Purchase)</label>
+            <label class="radio-item"><input type="radio" name="value" value="200kTo2m"/><span class="radio-checkmark"></span>$200,000 to $2 million (Formal Process)</label>
+            <label class="radio-item"><input type="radio" name="value" value="2mTo5m"/><span class="radio-checkmark"></span>$2 million to $5 million (Higher Level Signer Required)</label>
+            <label class="radio-item"><input type="radio" name="value" value="over5m"/><span class="radio-checkmark"></span>Over $5 million (BOV Approval & Higher Level Signer Required)</label>
+          </div>
+          <div class="form-helper">Consider Total Contract Value (initial + renewals).</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Are the requirements complex, specialized, or unique item/service?</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="specialized" value="yes"/><span class="radio-checkmark"></span>Yes</label>
+            <label class="radio-item"><input type="radio" name="specialized" value="no"/><span class="radio-checkmark"></span>No</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Is there a single source that can provide this item/service?</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="singleSource" value="yes"/><span class="radio-checkmark"></span>Yes</label>
+            <label class="radio-item"><input type="radio" name="singleSource" value="no"/><span class="radio-checkmark"></span>No</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Is this an emergency procurement?</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="emergency" value="yes"/><span class="radio-checkmark"></span>Yes</label>
+            <label class="radio-item"><input type="radio" name="emergency" value="no"/><span class="radio-checkmark"></span>No</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Is the vendor SBSD certified?</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="sbsdCertified" value="yes"/><span class="radio-checkmark"></span>Yes</label>
+            <label class="radio-item"><input type="radio" name="sbsdCertified" value="no"/><span class="radio-checkmark"></span>No / Not sure</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="exception">Does this procurement qualify for an Exception to Competition (EC)?</label>
+          <select id="exception" class="form-control">
+            <option value="none" selected>No Exception Applies</option>
+            <optgroup label="Arts, Events, and Media (Capped at $200k)">
+              <option value="EC2">Game Officials</option>
+              <option value="EC3">TV/Radio</option>
+              <option value="EC4">Performing Arts/Media Services</option>
+              <option value="EC5">Arts/Exhibitions</option>
+              <option value="EC24">Advertisements</option>
+            </optgroup>
+            <optgroup label="Arts, Events, and Media (Unlimited)">
+              <option value="EC31">Speakers/Performing Artists</option>
+            </optgroup>
+            <optgroup label="Education and Research (Capped at $200k)">
+              <option value="EC6">Books/Subscriptions</option>
+              <option value="EC8">Registration Fees</option>
+              <option value="EC9">Academic/Research Consulting</option>
+              <option value="EC18">Academic Testing</option>
+              <option value="EC19">Accreditation Fees</option>
+              <option value="EC20">Equipment Testing/Evaluation</option>
+              <option value="EC21">Training Sessions & Workshops</option>
+            </optgroup>
+            <optgroup label="Education and Research (Unlimited)">
+              <option value="EC16">Educational Institutions</option>
+            </optgroup>
+            <optgroup label="Travel and Conferences">
+              <option value="EC23">International Purchases (Capped at $200k)</option>
+              <option value="EC34">Foreign Group Travel (Unlimited)</option>
+              <option value="EC35">Conference Facilities & Services (Unlimited)</option>
+              <option value="EC36">Athletic Events Participation (Unlimited)</option>
+            </optgroup>
+            <optgroup label="Equipment and Maintenance">
+              <option value="EC12">Maintenance & Repair (High-cost equip)</option>
+              <option value="EC28">Used Equipment (Unlimited)</option>
+            </optgroup>
+            <optgroup label="Health and Professional Services">
+              <option value="EC13">Transplants & Implants (Capped)</option>
+              <option value="EC14">Medical/Health Services (Capped)</option>
+              <option value="EC25">Facilitators/Mediators (Capped)</option>
+              <option value="EC39">Pharmacies/Medical Residencies (Capped)</option>
+              <option value="EC38">Legal Services (Unlimited)</option>
+            </optgroup>
+            <optgroup label="Technology and Utilities">
+              <option value="EC17">Specialized Software Licenses (Capped)</option>
+              <option value="EC27">Utilities (Unlimited)</option>
+            </optgroup>
+            <optgroup label="Other Exceptions">
+              <option value="EC10">Sponsorships (Capped)</option>
+              <option value="EC11">Honoraria (Capped)</option>
+              <option value="EC15">Pass-Through Procurements (Capped)</option>
+              <option value="EC26">Real Estate Leases (Capped)</option>
+              <option value="EC29">Government-to-Government (Unlimited)</option>
+              <option value="EC30">Special Sector Purchases (Unlimited)</option>
+              <option value="EC32">Memberships and Dues (Unlimited)</option>
+              <option value="EC33">Grant Sub-Awards (Unlimited)</option>
+              <option value="EC37">Royalties (Unlimited)</option>
+            </optgroup>
+          </select>
+          <div class="form-helper">If the exception is capped at $200k and your TCV exceeds that, normal procurement rules apply.</div>
+        </div>
+
+        <div id="step3Error" class="alert" style="display:none"><div><div class="alert-title">Missing Input</div>
+          <div class="alert-description">Please answer all questions above.</div></div></div>
+      </div>
+      <div class="card-footer">
+        <button id="step3BackButton" class="button button-outline">Back</button>
+        <button id="step3NextButton" class="button button-primary">Next</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div id="step4" class="card" style="display:none">
+      <div class="card-header">
+        <div class="card-title">Suggested Procurement Method</div>
+        <div class="card-description">Based on your answers, here’s a suggested procurement method (Purchasing will make the final determination).</div>
+      </div>
+      <div class="card-content">
+        <div class="alert" style="margin-bottom:1rem">
+          <div>
+            <div class="alert-title">Important Disclaimer</div>
+            <div class="alert-description">This tool provides guidance only. Purchasing has the ultimate authority.</div>
+          </div>
+        </div>
+
+        <div id="resultDisplay" class="result-section"></div>
+
+        <div class="alert">
+          <div>
+            <div class="alert-title">Need Assistance?</div>
+            <div class="alert-description">
+              • Place a service ticket (VCU Procurement Service Tickets)<br/>
+              • Email: purchasing@vcu.edu
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button id="step4BackButton" class="button button-outline">Back</button>
+        <button id="downloadResultButton" class="button button-secondary">Download Results</button>
+        <button id="resetButton" class="button button-primary">Start Over</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+  <!-- optional: logo.js defines window.vcuLogoBase64 -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Elements
+    const stepEls = [1,2,3,4].map(n => document.getElementById('step'+n));
+    const indicatorEls = [1,2,3,4].map(n => document.getElementById('stepIndicator'+n));
+
+    const btn = {
+      cancel: document.getElementById('startCancelButton'),
+      s1Next: document.getElementById('step1NextButton'),
+      s2Back: document.getElementById('step2BackButton'),
+      s2Next: document.getElementById('step2NextButton'),
+      s3Back: document.getElementById('step3BackButton'),
+      s3Next: document.getElementById('step3NextButton'),
+      s4Back: document.getElementById('step4BackButton'),
+      reset:  document.getElementById('resetButton'),
+      pdf:    document.getElementById('downloadResultButton'),
+    };
+
+    const els = {
+      purchaseType: document.getElementById('purchaseType'),
+      exception: document.getElementById('exception'),
+      fmd: document.getElementById('fmdMessage'),
+      s1Err: document.getElementById('step1Error'),
+      s2Err: document.getElementById('step2Error'),
+      s3Err: document.getElementById('step3Error'),
+      existingContractInfo: document.getElementById('existingContractInfo'),
+      notSureInfo: document.getElementById('notSureInfo'),
+      result: document.getElementById('resultDisplay')
+    };
+
+    let state = {
+      purchaseType:'', existingContract:'', value:'', specialized:'', singleSource:'',
+      emergency:'', sbsdCertified:'', exception:'none'
+    };
+
+    function setActiveStep(n){
+      stepEls.forEach((el,i)=>{ if(el) el.style.display = (i===n-1)?'block':'none'; });
+      indicatorEls.forEach((el,i)=> el.classList.toggle('active', i===n-1));
+    }
+
+    function resetForm(){
+      state = {purchaseType:'', existingContract:'', value:'', specialized:'', singleSource:'', emergency:'', sbsdCertified:'', exception:'none'};
+      els.purchaseType.value = '';
+      els.exception.value = 'none';
+      ['existingContract','value','specialized','singleSource','emergency','sbsdCertified'].forEach(name=>{
+        document.querySelectorAll(`input[name="${name}"]`).forEach(r=> r.checked=false);
+      });
+      els.fmd.style.display='none';
+      els.s1Err.style.display='none';
+      els.s2Err && (els.s2Err.style.display='none');
+      els.s3Err && (els.s3Err.style.display='none');
+      els.existingContractInfo.style.display='none';
+      els.notSureInfo.style.display='none';
+      els.result.innerHTML = '';
+      btn.s1Next.disabled=false; btn.s1Next.textContent='Next';
+      setActiveStep(1);
+    }
+
+    // Step 1
+    btn.cancel.addEventListener('click', resetForm);
+    btn.s1Next.addEventListener('click', ()=>{
+      const v = els.purchaseType.value;
+      if(!v){ els.s1Err.style.display='block'; return; }
+      els.s1Err.style.display='none';
+      if(v==='construction'){
+        els.fmd.style.display='block';
+        btn.s1Next.disabled=true;
+        btn.s1Next.textContent='Contact FMD First';
+        return;
+      }
+      els.fmd.style.display='none';
+      state.purchaseType = v;
+      setActiveStep(2);
+    });
+
+    // Step 2
+    btn.s2Back.addEventListener('click', ()=> setActiveStep(1));
+    btn.s2Next.addEventListener('click', ()=>{
+      const sel = document.querySelector('input[name="existingContract"]:checked');
+      if(!sel){ els.s2Err.style.display='block'; return; }
+      els.s2Err.style.display='none';
+      state.existingContract = sel.value;
+      if(sel.value==='yes'){ els.existingContractInfo.style.display='block'; els.notSureInfo.style.display='none'; }
+      else if(sel.value==='notSure'){ els.existingContractInfo.style.display='none'; els.notSureInfo.style.display='block'; }
+      else { els.existingContractInfo.style.display='none'; els.notSureInfo.style.display='none'; }
+      setActiveStep(3);
+    });
+    document.getElementsByName('existingContract').forEach(r=>{
+      r.addEventListener('change', e=>{
+        if(e.target.value==='yes'){ els.existingContractInfo.style.display='block'; els.notSureInfo.style.display='none'; }
+        else if(e.target.value==='notSure'){ els.existingContractInfo.style.display='none'; els.notSureInfo.style.display='block'; }
+        else { els.existingContractInfo.style.display='none'; els.notSureInfo.style.display='none'; }
+      });
+    });
+
+    // Step 3
+    btn.s3Back.addEventListener('click', ()=> setActiveStep(2));
+    function haveAllStep3(){
+      const groups = ['value','specialized','singleSource','emergency','sbsdCertified'];
+      return groups.every(name => document.querySelector(`input[name="${name}"]:checked`));
+    }
+    btn.s3Next.addEventListener('click', ()=>{
+      if(!haveAllStep3()){ els.s3Err.style.display='block'; return; }
+      els.s3Err.style.display='none';
+      state.value = document.querySelector('input[name="value"]:checked').value;
+      state.specialized = document.querySelector('input[name="specialized"]:checked').value;
+      state.singleSource = document.querySelector('input[name="singleSource"]:checked').value;
+      state.emergency = document.querySelector('input[name="emergency"]:checked').value;
+      state.sbsdCertified = document.querySelector('input[name="sbsdCertified"]:checked').value;
+      state.exception = els.exception.value;
+
+      // ---- Recommendation logic (kept close to your original) ----
+      let method='', desc='', extra='', timeline='', coop='';
+      // Under $10k always delegated
+      if(state.value==='under10k'){
+        method='Delegated Authority Purchase';
+        desc='For purchases under $10,000, departments have delegated authority.';
+        extra='Use a PO via RealSource. Do NOT sign vendor docs. If vendor requires signature, route via Contracts+.';
+        timeline='Timeline: 1–5 business days (longer if contract/signature needed).';
+      }
+      else if(state.existingContract==='yes'){
+        method='Use Existing Contract';
+        desc='An existing contract meets your needs. Use it.';
+        extra='Contact Purchasing to place the order against the contract.';
+        timeline='Timeline: Fastest.';
+      }
+      else if(state.exception!=='none'){
+        const capped = /(EC2|EC3|EC4|EC5|EC6|EC8|EC9|EC10|EC11|EC12|EC13|EC14|EC15|EC17|EC18|EC19|EC20|EC21|EC23|EC24|EC25|EC26|EC39)/.test(state.exception);
+        const over200k = ['200kTo2m','2mTo5m','over5m'].includes(state.value);
+        if(capped && over200k){
+          if(state.emergency==='yes'){ method='Emergency Procurement'; desc='Emergency; capped exception cannot be used over $200k.'; extra='Provide emergency justification in RealSource.'; timeline='1–5 business days, depending on urgency.'; }
+          else if(state.singleSource==='yes'){ method='Sole Source Procurement'; desc='Only one source available; capped exception cannot be used over $200k.'; extra='Submit Sole Source Justification in RealSource.'; timeline='~5–15 business days.'; }
+          else if(state.specialized==='yes'){ method='Request for Proposal (RFP)'; desc='Specialized purchase over $200k; best value via RFP.'; extra='Purchasing runs RFP, evaluation, negotiation.'; timeline='~90–125+ days.'; }
+          else { method='Request for Proposal (RFP)'; desc='Over $200k; RFP generally suggested for best value.'; extra='Purchasing runs RFP.'; timeline='~90–125+ days.'; }
+        } else {
+          const text = els.exception.options[els.exception.selectedIndex].text;
+          method='Exception to Competition';
+          desc=`Selected exception: "${text}" permits direct procurement under specific conditions.`;
+          extra='Submit requisition with documentation explaining how the exception applies.';
+          timeline='~5–15 business days.';
+        }
+      }
+      else if(state.sbsdCertified==='yes' && state.value==='10kTo200k' && state.emergency==='no' && state.singleSource==='no' && state.exception==='none'){
+        if(state.specialized==='yes'){ method='Best Value Acquisition (BVA)'; desc='Specialized purchase in small-purchase range.'; extra='Purchasing solicits at least four SBSD firms. Possible SBSD Spot Award if eligible.'; timeline='~15–60+ days (faster if Spot Award applies).'; }
+        else { method='Request for Quote (RFQ)'; desc='Standard item/service; award on lowest price.'; extra='Purchasing solicits at least four SBSD firms. Possible SBSD Spot Award if eligible.'; timeline='~5–15+ days.'; }
+      }
+      else if(state.emergency==='yes'){
+        method='Emergency Procurement'; desc='Immediate threat or critical need; limited competition.'; extra='Provide detailed emergency justification in RealSource.'; timeline='1–5 business days.'
+      }
+      else if(state.singleSource==='yes'){
+        method='Sole Source Procurement'; desc='Only one vendor can provide the requirement.'; extra='Submit Sole Source Justification with requisition.'; timeline='~5–15 business days.'
+      }
+      else if(state.value==='10kTo200k'){
+        if(state.specialized==='yes'){ method='Best Value Acquisition (BVA)'; desc='Specialized purchase; evaluate beyond price.'; extra='Purchasing manages BVA; solicit ≥4 SBSD firms.'; timeline='~15–60+ days.'; }
+        else { method='Request for Quote (RFQ)'; desc='Standard item/service; award on lowest price.'; extra='Purchasing manages RFQ; solicit ≥4 SBSD firms.'; timeline='~5–15+ days.'; }
+      }
+      else if(['200kTo2m','2mTo5m','over5m'].includes(state.value)){
+        method='Request for Proposal (RFP)'; desc= state.specialized==='yes'
+          ? 'Specialized purchase over $200k; evaluate multiple criteria.'
+          : 'Over $200k; RFP generally suggested for best value.';
+        extra='Purchasing conducts RFP (posting, evaluation, negotiation).'
+          + (state.value==='2mTo5m' ? ' Requires higher-level signer.' : '')
+          + (state.value==='over5m' ? ' Requires higher-level signer and BOV approval.' : '');
+        timeline='~90–125+ days.';
+      }
+
+      if(state.existingContract!=='yes'){
+        coop = `
+          <h3 class="mt-3" style="margin-top:1rem">Cooperative Contract Options</h3>
+          <p>Before proceeding, check for an available cooperative contract:</p>
+          <div class="platform-buttons">
+            <a href="https://vascupp.org" target="_blank" class="platform-button vascupp-button"><div class="platform-button-name">VASCUPP</div><div class="platform-button-desc">Higher-ed statewide</div></a>
+            <a href="https://vhepc.cobblestone.software/public/" target="_blank" class="platform-button vhepc-button"><div class="platform-button-name">VHEPC</div><div class="platform-button-desc">Higher-ed consortium</div></a>
+            <a href="https://eva.virginia.gov" target="_blank" class="platform-button eva-button"><div class="platform-button-name">eVA</div><div class="platform-button-desc">Virginia portal</div></a>
+            <a href="https://vita.cobblestonesystems.com/public/" target="_blank" class="platform-button vita-button"><div class="platform-button-name">VITA</div><div class="platform-button-desc">IT contracts</div></a>
+            <a href="https://www.withpavilion.com/welcome" target="_blank" class="platform-button pavilion-button"><div class="platform-button-name">Pavilion</div><div class="platform-button-desc">Co-op platform</div></a>
+          </div>`;
+      }
+
+      const exceptionText = (()=>{
+        if(state.exception==='none') return 'None';
+        return els.exception.options[els.exception.selectedIndex].text;
+      })();
+
+      function valText(v){
+        return ({
+          under10k:'Under $10,000 (Delegated Authority)',
+          '10kTo200k':'$10,000–$200,000 (Small Purchase)',
+          '200kTo2m':'$200,000–$2,000,000 (Formal)',
+          '2mTo5m':'$2,000,000–$5,000,000 (Higher-level signer)',
+          over5m:'Over $5,000,000 (BOV approval)'
+        })[v] || 'Not specified';
+      }
+      function typeText(t){
+        return ({
+          standardGoods:'Standard Goods',
+          standardServices:'Standard Services',
+          standardGoodsServices:'Standard Goods and Services',
+          construction:'Construction / Facilities'
+        })[t] || 'Not specified';
+      }
+      function yesNo(b){ return b==='yes' ? 'Yes' : (b==='no' ? 'No' : 'Not specified'); }
+      function existText(v){ return v==='yes'?'Yes':(v==='no'?'No':(v==='notSure'?'Not sure':'Not specified')); }
+
+      els.result.innerHTML = `
+        <h2>${method || 'No method determined'}</h2>
+        <p>${desc || ''}</p>
+        <p>${extra || ''}</p>
+        <p><strong>${timeline || ''}</strong></p>
+        <div class="badge" style="margin: .75rem 0">Suggested Method</div>
+
+        <h3 style="margin-top:.75rem">Key Considerations</h3>
+        <ul>
+          <li><strong>Purchase Type:</strong> ${typeText(state.purchaseType)}</li>
+          <li><strong>Existing Contract:</strong> ${existText(state.existingContract)}</li>
+          <li><strong>Estimated Value:</strong> ${valText(state.value)}</li>
+          <li><strong>Specialized/Unique:</strong> ${yesNo(state.specialized)}</li>
+          <li><strong>Single Source:</strong> ${yesNo(state.singleSource)}</li>
+          <li><strong>Emergency:</strong> ${yesNo(state.emergency)}</li>
+          <li><strong>SBSD Certified Vendor:</strong> ${yesNo(state.sbsdCertified)}</li>
+          <li><strong>Exception to Competition:</strong> ${exceptionText}</li>
+        </ul>
+
+        <h3 style="margin-top:.75rem">Next Steps</h3>
+        <ul>
+          <li>Submit a requisition in RealSource to initiate the process.</li>
+          <li>If the vendor isn’t registered, submit a vendor request.</li>
+          <li>Contact Purchasing for needed documentation and approvals.</li>
+        </ul>
+        ${coop || ''}`;
+      setActiveStep(4);
+    });
+
+    // Step 4
+    btn.s4Back.addEventListener('click', ()=> setActiveStep(3));
+    btn.reset.addEventListener('click', resetForm);
+
+    // PDF
+    btn.pdf.addEventListener('click', ()=>{
+      try{
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const vcuBlue = [0,75,135], vcuGold = [248,179,0];
+        const currentDate = new Date().toLocaleDateString();
+
+        try {
+          if (window.vcuLogoBase64) {
+            doc.addImage(window.vcuLogoBase64,'PNG',77,10,56,20);
+            doc.setFontSize(18);
+            doc.setTextColor(...vcuBlue);
+            doc.text('Procurement Method Suggestion',105,38,{align:'center'});
+          } else { throw new Error('noLogo'); }
+        } catch(_){
+          doc.setFontSize(20); doc.setTextColor(...vcuBlue);
+          doc.text('VCU Procurement Method',105,20,{align:'center'});
+        }
+
+        doc.setDrawColor(...vcuGold); doc.setLineWidth(1); doc.line(20,43,190,43);
+        doc.setFontSize(10); doc.setTextColor(100,100,100); doc.text(`Generated on: ${currentDate}`,20,50);
+
+        // Details table
+        const details = [
+          ['Purchase Type:', (['standardGoods','standardServices','standardGoodsServices','construction'].includes(state.purchaseType)? state.purchaseType : 'Not specified')],
+          ['Existing Contract:', state.existingContract||'Not specified'],
+          ['Estimated Value:', state.value||'Not specified'],
+          ['Complex/Specialized:', state.specialized||'Not specified'],
+          ['Single Source:', state.singleSource||'Not specified'],
+          ['Emergency:', state.emergency||'Not specified'],
+          ['SBSD Certified Vendor:', state.sbsdCertified||'Not specified'],
+          ['Exception to Competition:', state.exception||'none'],
+        ];
+        doc.autoTable({startY:60, body:details, theme:'plain', styles:{fontSize:10, cellPadding:4},
+          columnStyles:{0:{cellWidth:60,fontStyle:'bold'},1:{cellWidth:110}}});
+        const y = doc.lastAutoTable.finalY + 10;
+
+        // Result text
+        const temp = document.createElement('div'); temp.innerHTML = els.result.innerHTML;
+        const resultText = (temp.textContent||'').replace(/\s+\n/g,'\n').trim();
+        doc.setFontSize(12); doc.setTextColor(...vcuBlue); doc.text('Suggested Procurement Method',20,y);
+        doc.setFontSize(10); doc.setTextColor(0,0,0);
+        const lines = doc.splitTextToSize(resultText,170); doc.text(lines,20,y+8);
+
+        // Page footer
+        const pages = doc.internal.getNumberOfPages();
+        for(let i=1;i<=pages;i++){ doc.setPage(i); doc.setFontSize(8); doc.setTextColor(150,150,150); doc.text(`Page ${i} of ${pages}`,190,285,{align:'right'}); }
+
+        doc.save('VCU_Procurement_Suggestion.pdf');
+      }catch(e){ alert('PDF generation failed: '+e.message); }
+    });
+
+    // start
+    resetForm();
+  });
+  </script>
+</body>
+</html>
